@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 7%">Status</th>
+      <th scope="col" style="width: 10%">Course</th>
+      <th scope="col" style="width: 15%">Name</th>
+      <th scope="col" style="width: 8%">Weightage</th>
+      <th scope="col" style="width: 12%">Date</th>
+      <th scope="col" style="width: 12%">Task</th>
+      <th scope="col" style="width: 40%">Notes</th>
+      <th scope="col" style="width: 5%"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in todoList %}
+        <tr>
+            <td>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input"  {% if item.is_checked %} checked = true {% endif %}>
+                </div>
+            </td>
+            <td>{{ item.course }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.weight }}</td>
+            <td>{{ item.due_date }}</td>
+            <td>{{ item.task }}</td>
+            <td>{{ item.notes }}</td>
+            <td><form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    <form autocomplete="off" method="POST" action="">
+    <tr>
+        <td></td>
+        <td>
+        <div class="input-group">
+            <!-- <input type="text" autocomplete="off" class="form-control" name="course"> -->
+            <input class="form-control" autocomplete="off" list="course" name="course">
+              <datalist id="course">
+                {% for row in courses %}
+                    <option value="{{ row.course_code }}">
+                {% endfor %}
+              </datalist>
+
+        </div>
+        </td>
+        <td>
+        <div class="input-group">
+            <input type="text" autocomplete="off" class="form-control" name="name">
+        </div>
+        </td>
+        <td>
+        <div class="input-group">
+            <input type="text" autocomplete="off" class="form-control" name="weight">
+        </div>
+        </td>
+        <td>        
+        <div class="input-group">
+            <input type="date" class="form-control" name="date">
+        </div>
+        </td>
+        <td>
+        <div class="input-group">
+            <input class="form-control" autocomplete="off" list="task" name="task">
+                <datalist id="task">
+                    <option value="Assignment">
+                    <option value="Project">
+                    <option value="Essay">
+                    <option value="Exam">
+                </datalist>
+        </div>
+        </td>
+        <td>
+        <div class="input-group">
+            <input type="text" autocomplete="off" class="form-control" name="notes">
+        </div>
+        </td>
+        <td>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </td>
+    </tr>
+    </form>
+  </tbody>
+</table>
+
+{% endblock %}

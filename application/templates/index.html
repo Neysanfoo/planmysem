@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+        <table class="table">
+            <thead>
+                <th style="font-size:20px" scope="col">Courses</th>
+            </thead>
+            <tbody>
+            {% for row in courses %}
+                <tr>
+                    <td class="trunc"><a href="{{ url_for('course', course_id=row.id ) }}">{{ row.course }}</a> </td>
+                    <td>
+                    <form action="{{ url_for('delete_course', course_id=row.id) }}" method="POST">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+            <form method="POST" action="/">
+            <td>        
+                    <input autocomplete="off" placeholder = "Add a Course" type="text" name="addCourse" class="form-control">
+                
+            </td>
+            <td><button class="btn btn-primary" type="submit">Add</button></td>
+            </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-6">
+    <table class="table" id="gpaTable">
+            <thead>
+                <th style="font-size:20px; width: 60%" scope="col" class = "trunc">GPA Calculator</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input autocomplete="off" placeholder = "Current Credits" type="number" id="currentCredits" min="0" class="form-control"></td>
+                <td><input autocomplete="off" placeholder = "Current GPA" type="number" step="0.01" min = "0" id="currentGPA" class="form-control"></td>
+            </tr>
+                <tr>
+                    <td colspan="2" style="text-align:right;padding-top:8px;"> 
+                    <button class="btn btn-primary" onclick="addRow(num_of_rows)">Add Another Course</button>
+                    </td>
+                </tr>
+            </tbody>
+
+            <tr>
+            <td id="GPA" style="font-size:20px"></td>
+            <td style="text-align:right;padding-top:8px;"><button class="btn btn-primary"  onclick="calculateGPA()">Calculate</button></td>
+            </tr>
+        </table>
+        
+    </div>
+</div>
+
+<script>
+var table = document.getElementById("gpaTable");
+var num_of_rows = 2;
+
+function addRow(row_num)
+{
+    // Create an empty <tr> element and add it to the 1st position of the table:
+    var row = table.insertRow(row_num);
+
+    // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+
+    // Add some text to the new cells:
+    cell1.innerHTML = '<input autocomplete="off" placeholder = "Credits" type="number" name="credits" min="0" class="form-control credits">';
+    cell2.innerHTML = `<select class="form-select grade" id="grade">
+                                <option value="NULL">Grade</option>
+                                <option value="5">A+</option>
+                                <option value="5">A</option>
+                                <option value="4.5">A-</option>
+                                <option value="4">B+</option>
+                                <option value="3.5">B</option>
+                                <option value="3">B-</option>
+                                <option value="2.5">C+</option>
+                                <option value="2">C</option>
+                                <option value="1.5">D+</option>
+                                <option value="1">D</option>
+                                <option value="0">F</option>
+                            </select>`;
+    console.log(num_of_rows);
+    num_of_rows++;
+}
+addRow(num_of_rows);
+addRow(num_of_rows);
+addRow(num_of_rows);
+addRow(num_of_rows);
+addRow(num_of_rows);
+
+
+function calculateGPA()
+{ 
+    var currentGPA = document.getElementById("currentGPA").value;
+    var currentCredits = parseInt(document.getElementById("currentCredits").value);
+    var sum = 0;
+    var total = 0;
+    if (currentGPA && currentCredits)
+    {
+        sum += currentGPA * currentCredits;
+        total += currentCredits;
+    }
+    var grades = document.getElementsByClassName("grade");
+    var credits = document.getElementsByClassName("credits");
+    for (let i = 0; i < grades.length; i++)
+    {
+        if (grade[i].value == "NULL" || credits[i].value == "" || credits[i].value <0)
+        {
+            continue;
+        }
+        sum += (grades[i].value * credits[i].value);
+        total += parseInt(credits[i].value);
+    }
+    document.getElementById('GPA').innerHTML = "GPA: " + (sum/total).toFixed(2);
+}
+</script>
+{% endblock %}

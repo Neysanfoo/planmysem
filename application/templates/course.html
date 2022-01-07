@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>{{ course.course }}</h2>
+<form method="POST" action="">
+  <div class="row">
+    <div class="col">
+        <h3>Syllabus</h3>
+        <textarea rows="6" cols="50" name="addSyllabus">{{ course.syllabus }}</textarea>
+    </div>
+    <div class="col">
+        <h3>Upcoming Due Dates</h3>
+        <table class="table">
+        <thead>
+            <tr>
+            <th scope="col" style="width: 7%">Status</th>
+            <th scope="col" style="width: 10%">Course</th>
+            <th scope="col" style="width: 15%">Name</th>
+            <th scope="col" style="width: 8%">Weightage</th>
+            <th scope="col" style="width: 12%">Date</th>
+            <th scope="col" style="width: 12%">Task</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in todoList %}
+                <tr>
+                    <td>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" {% if item.is_checked %} checked = true {% endif %}>
+                    </div>
+                    </td>
+                    <td>{{ item.course }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.weight }}</td>
+                    <td>{{ item.due_date }}</td>
+                    <td>{{ item.task }}</td>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    </div>
+    <button class="btn btn-primary course_update" type="submit" >Update</button>
+</form>
+{% endblock content %}
