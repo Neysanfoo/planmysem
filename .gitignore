@@ -1,3 +1,5 @@
 planmysem-flask.pem
 application/site.db
 requirements.txt
+.DS_Store
+application/__pycache__
