@@ -55,53 +55,6 @@ There is no complexity requirements for the password, which could be a security 
 
 To communicate with our database, we use SQLAlchemy.
 
-The schema of site.db is as follows.
-
-```
-CREATE TABLE user (
-        id INTEGER NOT NULL,
-        username VARCHAR(20) NOT NULL,
-        email VARCHAR(120) NOT NULL,
-        password VARCHAR(60) NOT NULL,
-        PRIMARY KEY (id),
-        UNIQUE (username),
-        UNIQUE (email)
-);
-CREATE TABLE todo_list (
-        id INTEGER NOT NULL,
-        is_checked INTEGER NOT NULL,
-        course VARCHAR(20),
-        name VARCHAR(20),
-        weight VARCHAR(20),
-        due_date VARCHAR(20),
-        task VARCHAR(20),
-        notes TEXT,
-        user_id INTEGER NOT NULL,
-        PRIMARY KEY (id),
-        FOREIGN KEY(user_id) REFERENCES user (id)
-);
-CREATE TABLE calendar (
-        id INTEGER NOT NULL,
-        title VARCHAR(30),
-        start VARCHAR(30),
-        "end" VARCHAR(30),
-        recurring INTEGER,
-        "allDay" VARCHAR(30),
-        user_id INTEGER NOT NULL,
-        PRIMARY KEY (id),
-        FOREIGN KEY(user_id) REFERENCES user (id)
-);
-CREATE TABLE courses (
-        id INTEGER NOT NULL,
-        course VARCHAR(30),
-        course_code VARCHAR(20),
-        syllabus TEXT,
-        user_id INTEGER NOT NULL,
-        PRIMARY KEY (id),
-        FOREIGN KEY(user_id) REFERENCES user (id)
-);
-```
-
 ## Deployment
 
-The website is deployed using AWS Elastic Beanstalk.
+The website is deployed using an AWS EC2 instance.
